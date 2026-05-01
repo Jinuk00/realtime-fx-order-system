@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:fxdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+fx:
+  provider:
+    base-url: https://oapi.koreaexim.go.kr
+    latest-rate-path: /site/program/financial/exchangeJSON
+    auth-key: ${EXIM_AUTH_KEY:}
+  scheduler:
+    ms: 60000
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace

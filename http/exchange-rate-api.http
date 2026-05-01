@@ -1,0 +1,65 @@
+### IntelliJ HTTP Client - Exchange Rate APIs
+### 사용법:
+### 1) 우측 상단에서 환경을 dev로 선택
+### 2) 인증키는 http/http-client.private.env.json 에서 로드
+
+@localBaseUrl = http://localhost:8080
+@eximBaseUrl = https://oapi.koreaexim.go.kr
+@eximLatestRatePath = /site/program/financial/exchangeJSON
+@searchDate = 20260429
+
+### ========================================
+### 1) 한국수출입은행 환율 조회 (원본 응답 확인)
+### ========================================
+GET {{eximBaseUrl}}{{eximLatestRatePath}}?authkey={{eximAuthKey}}&searchdate={{searchDate}}&data=AP01
+Accept: application/json
+
+### ========================================
+### 2) 로컬 - 전체 통화 최신 환율 조회
+### ========================================
+GET {{localBaseUrl}}/exchange-rate/latest
+Accept: application/json
+
+### ========================================
+### 3) 로컬 - 특정 통화 최신 환율 조회 (USD)
+### ========================================
+GET {{localBaseUrl}}/exchange-rate/latest/USD
+Accept: application/json
+
+### ========================================
+### 4) 로컬 - 특정 통화 최신 환율 조회 (KRW, 실패 케이스 확인)
+### ========================================
+GET {{localBaseUrl}}/exchange-rate/latest/KRW
+Accept: application/json
+
+### ========================================
+### 5) 로컬 - 주문 생성 (KRW -> USD)
+### ========================================
+POST {{localBaseUrl}}/order
+Content-Type: application/json
+Accept: application/json
+
+{
+  "fromCurrency": "KRW",
+  "toCurrency": "USD",
+  "forexAmount": 100
+}
+
+### ========================================
+### 6) 로컬 - 주문 생성 (USD -> KRW)
+### ========================================
+POST {{localBaseUrl}}/order
+Content-Type: application/json
+Accept: application/json
+
+{
+  "fromCurrency": "USD",
+  "toCurrency": "KRW",
+  "forexAmount": 100
+}
+
+### ========================================
+### 7) 로컬 - 주문 목록 조회
+### ========================================
+GET {{localBaseUrl}}/order/list
+Accept: application/json
